@@ -2,6 +2,8 @@ jest.mock('./lib');
 import { get } from './lib';
 // import Foo from './foo';
 
+const { Indirect } = require('./indirect');
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { Foo } = require('./foo');
 const { Foo: RealFoo } = jest.requireActual('./foo');
@@ -60,14 +62,12 @@ describe('module mock tests', () => {
     // console.log(Foo.mock);
     expect(f.getStr()).toEqual('val: true');
     // console.log(f.getStr());
-    console.log(f.getIndirect());
+    // console.log(f.getIndirect());
   });
 
   test('7', () => {
     const f = new RealFoo(13.4);
-    console.log(f.getStr());
-    f.indirect.get.mockReturnValue(17);
-    console.log(f.indirect);
-    console.log(f.getIndirect());
+    Indirect.mock.instances[0].get.mockReturnValue(17);
+    expect(f.getIndirect()).toEqual(17);
   });
 });

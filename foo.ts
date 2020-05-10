@@ -1,7 +1,7 @@
 import { Indirect } from './indirect';
 
 export class Foo<T> {
-  indirect: Indirect;
+  private indirect: Indirect;
 
   constructor(public val: T) {
     this.indirect = new Indirect();
