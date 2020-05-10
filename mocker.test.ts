@@ -1,6 +1,11 @@
 jest.mock('./lib');
 import { get } from './lib';
-import Foo from './foo';
+// import Foo from './foo';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { Foo } = require('./foo');
+const { Foo: RealFoo } = jest.requireActual('./foo');
+
 const { get: realGet } = jest.requireActual('./lib');
 import { instance, mock, when, verify } from 'ts-mockito';
 
@@ -11,6 +16,7 @@ import { instance, mock, when, verify } from 'ts-mockito';
 // });
 
 jest.mock('./foo');
+jest.mock('./indirect');
 
 describe('module mock tests', () => {
   // test('1', () => {
@@ -49,9 +55,18 @@ describe('module mock tests', () => {
 
   test('6', () => {
     const f = new Foo(true);
-    // f.getStr.mockReturnValue(5);
+    f.getStr.mockReturnValue('val: true');
 
-    console.log(Foo.mock);
+    // console.log(Foo.mock);
+    expect(f.getStr()).toEqual('val: true');
+    // console.log(f.getStr());
+    console.log(f.getIndirect());
+  });
+
+  test('7', () => {
+    const f = new RealFoo(13.4);
     console.log(f.getStr());
+    // f.getIndirect.mockReturnValue(17);
+    console.log(f.getIndirect());
   });
 });
