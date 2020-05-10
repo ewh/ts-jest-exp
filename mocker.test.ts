@@ -66,7 +66,8 @@ describe('module mock tests', () => {
   test('7', () => {
     const f = new RealFoo(13.4);
     console.log(f.getStr());
-    // f.getIndirect.mockReturnValue(17);
+    f.indirect.get.mockReturnValue(17);
+    console.log(f.indirect);
     console.log(f.getIndirect());
   });
 });
